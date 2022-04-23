@@ -10,11 +10,11 @@ import postRoutes from './routes/posts.js';
 
 const app = express();
 
-app.use('/posts', postRoutes);
 app.use(bodyParser.json({limit: '30mb', extended: true})); //limita o envio de imagem em 30mb 
 app.use(bodyParser.urlencoded({limit: '30mb',extended: true}));
 
 app.use(cors());
+app.use('/posts', postRoutes);
 
 const CONNECTION_URL = "mongodb+srv://edson:Aher0kesh182@cluster0.unopo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const PORT = process.env.PORT || 5000;

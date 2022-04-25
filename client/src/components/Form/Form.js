@@ -19,6 +19,7 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: '',
     selectedFile: ''
   })
+
   const classes = useStyles()
   const dispatch = useDispatch()
 

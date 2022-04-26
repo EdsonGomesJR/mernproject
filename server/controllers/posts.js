@@ -22,23 +22,41 @@ export const createPost = async (req, res) => {
   } catch (error) {
     res.status(409).json({ message: error.message })
   }
-  res.send('Post creation')
+  // res.send('Post creation') Erro de unhandled promisse enviando header
 }
 
 export const updatePost = async (req, res) => {
   const { id: _id } = req.params
   const post = req.body
 
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).send('No post with that id')
+  try {
+    if (!mongoose.Types.ObjectId.isValid(_id))
+      return res.status(404).send('No post with that id')
 
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    { ...post, _id },
-    post,
-    {
-      new: true
-    }
-  )
+    const updatedPost = await PostMessage.findByIdAndUpdate(
+      { ...post, _id },
+      post,
+      {
+        new: true
+      }
+    )
 
-  res.json(updatedPost)
+    res.json(updatedPost)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const deletePost = async (req, res) => {
+  const { id } = req.params
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send('No post with that id')
+
+    await PostMessage.findByIdAndRemove(id)
+
+    res.json({ message: 'Post deleted successfully!' })
+  } catch (error) {
+    console.log(error)
+  }
 }
